@@ -26277,7 +26277,7 @@ try {
   const viewHeight = 500;
   const viewWidth = 500;
   const App = () => {
-    _d3Fetch.csv("https://raw.githubusercontent.com/AkolyVongdala/A2-Exploratory-Data-Analysis/main/data/weather%20(1).csv").then(data => console.log(data));
+    _d3Fetch.csv("https://raw.githubusercontent.com/AkolyVongdala/A2-Exploratory-Data-Analysis/main/data/weather.csv").then(data => console.log(data));
     return (
       /*#__PURE__*/_reactDefault.default.createElement("div", {
         __self: undefined,
