@@ -1,0 +1,22 @@
+{
+  "name": "react-parcel-example-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --public-url https://akolyvongdala.github.io/react-parcel-example-1/; rm -rf docs; mv dist docs;",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Akoly Vongdala",
+  "license": "MIT",
+  "dependencies": {
+    "parcel": "^2.0.0-beta.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "regl-worldview": "^0.16.1",
+    "vega": "^5.20.2",
+    "vega-lite-api": "^5.0.0",
+    "vega-tooltip": "^0.25.1"
+  }
+}
