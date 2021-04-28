@@ -308,6 +308,23 @@ const App = () => {
                 })}
             </svg>
 
+            <h3>Final write up</h3>
+            <p>The goal of this analysis was to explore the question: Does Washington State have a unique climate compared to other U.S. States?
+                To help explore this topic, I came up with a few sub questions to lead this exploration:
+                1. Compared to other states, is Washington state average temperature normal?
+                2. Is Washington one of the states with the highest recorded temperature?
+                3. Is Washington one of the states with the lowest recorded temperature?
+                4. What is the average snowfall per state recorded in 2017?</p>
+            <p>After coming up with these questions, I used tableau to explore the data further. I gained insight into how the data was formatted and was able to see 
+                that no further data wrangling was needed as the data already excluded null data. Though upon further investigation, I noticed there are data points from
+                U.S. territories which I decided to remove for the purpose of only comparing U.S. states.
+            </p>
+            <p>Through creating these visualization, I saw that Washington state climate is slightly unique compared to other states.
+                In that Washington statet weather is consistently not too hot or too cold. But one thing that was suprising was that, 
+                Washingtotn did not have the highest precipiation rate! Considering it is seen as a rainy/evergreen state. 
+                Lastly, my main take away from this assighnment is the data exploration is important in helping aid a great visualization. 
+                Exploring helps you to understand the data at its core which can lead to great questions.
+            </p>
 
             {/* below */}
             {/* <h3> Working with geo data </h3>
