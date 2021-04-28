@@ -310,7 +310,7 @@ const App = () => {
 
 
             {/* below */}
-            <h3> Working with geo data </h3>
+            {/* <h3> Working with geo data </h3>
             <svg width={1000} height={600} style={{ border: "1px solid black" }}>
                 <path d={mapPathString} fill="rgb(200, 200, 200)" />
                 {dataSmallSample.map((measurement) => {
@@ -322,9 +322,9 @@ const App = () => {
                     />
                 );
                 })}
-            </svg>
+            </svg> */}
             
-            <h3>Binning</h3>
+            {/* <h3>Binning</h3>
             <svg width={chartSize} height={chartSize} style={{ border: "1px solid black" }}>
             {tmaxBins.map((bin, i) => {
             return (
@@ -337,11 +337,11 @@ const App = () => {
                 />
             );
             })}
-        </svg>
+        </svg> */}
 
 
 
-            <h3> Scales in D3 - temperature</h3>
+            {/* <h3> Scales in D3 - temperature</h3>
             <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
                 <text 
                     x={chartSize/2 - 12} 
@@ -358,8 +358,8 @@ const App = () => {
                     style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
                 >
                     100
-                </text>
-                <line 
+                </text> */}
+                {/* <line 
                     x1={chartSize/2 - 10} 
                     y1={yScale(100)} 
                     x2={chartSize / 2 - 5} 
@@ -372,8 +372,8 @@ const App = () => {
                     x2={chartSize / 2 - 5} 
                     y2={yScale(0)}
                     stroke = {"black"}                
-                />
-                {dataSmallSample.map((measurement, index) => {
+                /> */}
+                {/* {dataSmallSample.map((measurement, index) => {
                     const highlight = measurement.station == "KALISPELL GLACIER AP";
                   return <line 
                             key={index}
@@ -385,10 +385,10 @@ const App = () => {
                             strokeOpacity = {highlight ? 1 : 0.1 }
                         />
                 })}
-            </svg>
+            </svg> */}
 
 
-        <h3>Scatterplot</h3>
+        {/* <h3>Scatterplot</h3>
         <svg width={chartSize} height={chartSize} style={{ border: "1px solid black" }}>
         {dataSmallSample.map((measurement, index) => {
           const highlight = measurement.station === "KALISPELL GLACIER AP";
@@ -404,11 +404,11 @@ const App = () => {
             />
           );
         })}
-      </svg>
+      </svg> */}
             
-            <p> Barcode plot TMAX at Kalispell Glacier (sounds cold, expect it to be
-        lower than average)</p>
-            <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
+            {/* <p> Barcode plot TMAX at Kalispell Glacier (sounds cold, expect it to be
+        lower than average)</p> */}
+            {/* <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
                 <text 
                     x={chartSize/2 - 15} 
                     textAnchor="end"
@@ -451,10 +451,10 @@ const App = () => {
                             strokeOpacity = {highlight ? 1 : 0.1 }
                         />
                 })}
-            </svg>
+            </svg> */}
 
-            <p> Display the distribution of max temperature</p>
-            <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
+            {/* <p> Display the distribution of max temperature</p> */}
+            {/* <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
                 {dataSmallSample.map((measurement, index) => {
                     const highlight = measurement.station == "KALISPELL GLACIER AP";
                   return <circle 
@@ -466,7 +466,7 @@ const App = () => {
                             strokeOpacity = "0.2"
                             r="3" />
                 })}
-            </svg>
+            </svg> */}
         </div>
     );
     
