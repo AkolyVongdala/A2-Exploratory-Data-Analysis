@@ -45,6 +45,37 @@ const App = () => {
         <div>
             <p>{loading && "Loading data!"}</p>
             
+            {/* Introduction */}
+            <h2>Dataset: Daily Weather in the U.S., 2017</h2>
+            <p>This dataset contains daily weather measurements from weather stations across the US in 2017, provided by the <a target="_black" href="https://www.ncdc.noaa.gov/data-access/land-based-station-data/land-based-datasets/global-historical-climatology-network-ghcn">NOAA Daily Global Historical Climatology Network.</a> This data has been transformed and there are a total of 1,000 weather measurements: some weather stations with only sparse measurements have been filtered out. </p>
+            <p>Column description:</p>
+            <p>
+            PRCP = Precipitation (inch),
+            SNOW = Snowfall (inch),
+            SNWD = Snow depth (inch),
+            TMAX = Maximum temperature (F),
+            TMIN = Minimum temperature (F),
+            TAVG = Average temperature (F),
+            AWND = Average daily wind speed (miles / hour),
+            WSF5 = Fastest 5-second wind speed (miles / hour),
+            WDF5 = Direction of fastest 5-second wind (degrees)
+            </p>
+            
+            <hr />
+            {/* Analysis questions*/}
+            <h2>Analysis Questions</h2>
+            <p>What factors contribute to the highest temperature recorded in 2017? </p>
+
+            <h4>Specific Questions:</h4>
+            <p>1. What is the average temperature per state recorded in 2017?</p>
+            <p>2. Which state has the highest recorded temperature in 2017?</p>
+            <p>3. Which state has the lowest recorded temperature in 2017?</p>
+            <p>4. What is the average snowfall per state recorded in 2017?</p>
+
+            <hr />
+            {/* SVG Work */}
+            <h3>What is the average temperature per state recorded in 2017?</h3>
+
             <h3> Working with geo data </h3>
             <svg width={1000} height={600} style={{ border: "1px solid black" }}>
                 <path d={mapPathString} fill="rgb(200, 200, 200)" />
