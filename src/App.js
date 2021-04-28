@@ -2,7 +2,7 @@ import React from "react";
 import { useFetch } from "./hooks/useFetch";
 import { scaleLinear } from "d3-scale";
 import { extent, max, min, bin } from "d3-array";
-//import { scale } from "vega";
+import { scale } from "vega";
 import * as topojson from "topojson-client";
 import world from "../land-50m";
 // import world from "../states-10m.json";
@@ -18,6 +18,14 @@ const App = () => {
         return +d.TMAX;
     });
 
+    const TMINextent = extent(dataSmallSample, (d) => {
+        return +d.TMIN;
+    });
+
+    const PRCPextent = extent(dataSmallSample, (d) => {
+        return +d.PRCP;
+    });
+
     const land = topojson.feature(world, world.objects.land);
     const projection = d3.geoNaturalEarth1();
     const path = d3.geoPath(projection);
@@ -28,6 +36,14 @@ const App = () => {
     const axisTextAlignmentFactor = 3;
     const yScale = scaleLinear()
     .domain(TMAXextent) // unit: km
+    .range([chartSize - margin, chartSize - 350]); // unit: pixels
+
+    const xScale = scaleLinear()
+    .domain(TMINextent) // unit: km
+    .range([chartSize - margin, chartSize - 350]); // unit: pixels
+
+    const pScale = scaleLinear()
+    .domain(PRCPextent) // unit: km
     .range([chartSize - margin, chartSize - 350]); // unit: pixels
 
     // bin is a function 
@@ -60,22 +76,240 @@ const App = () => {
             WSF5 = Fastest 5-second wind speed (miles / hour),
             WDF5 = Direction of fastest 5-second wind (degrees)
             </p>
-            
+
             <hr />
             {/* Analysis questions*/}
             <h2>Analysis Questions</h2>
-            <p>What factors contribute to the highest temperature recorded in 2017? </p>
+            <p>Does Washington State have a unique climate compared to other U.S. States? </p>
 
             <h4>Specific Questions:</h4>
-            <p>1. What is the average temperature per state recorded in 2017?</p>
-            <p>2. Which state has the highest recorded temperature in 2017?</p>
-            <p>3. Which state has the lowest recorded temperature in 2017?</p>
+            <p>1. Compared to other states, is Washington state average temperature normal?</p>
+            <p>2. Is Washington one of the states with the highest recorded temperature?</p>
+            <p>3. Is Washington one of the states with the lowest recorded temperature?</p>
             <p>4. What is the average snowfall per state recorded in 2017?</p>
 
             <hr />
             {/* SVG Work */}
-            <h3>What is the average temperature per state recorded in 2017?</h3>
+            <p>Sanity check to see if all data points are from the U.S. States. Noticed there are small amount of data points from U.S. territories like Guam, 
+                Puerto Rico, and U.S. Virgin Islands. Based on this observation, the data will be transformed to include only U.S. state data.</p>
+            <svg width={1000} height={600} style={{ border: "1px solid black" }}>
+                <path d={mapPathString} fill="rgb(200, 200, 200)" />
+                {dataSmallSample.map((measurement) => {
+                return (
+                    <circle
+                    transform={`translate(
+                        ${projection([measurement.longitude, measurement.latitude])})`}
+                    r=".7"
+                    stroke = {"steelblue"}
+                    strokeOpacity = "0.2"
+                    />
+                );
+                })}
+            </svg>
 
+
+            <h3>Distribution of average temperature</h3>
+            <p>Comparing Washington state daily average tempereature (red) to the rest of the country's (blue) daily average temperature. Despite some salient differences for lower average temperature, 
+                Washington state and other U.S. State average temperature have a high level of association.</p>
+            <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
+                {dataSmallSample.map((measurement, index) => {
+                    const highlight = measurement.state == "WA";
+                  return <circle 
+                            key={index} 
+                            cx={highlight ? chartSize/2 : chartSize / 2 + 20} 
+                            cy={chartSize - margin - measurement.TAVG} 
+                            fill = "none"
+                            stroke = {highlight ? "red" : "steelblue"}
+                            strokeOpacity = "0.2"
+                            r="3" />
+                })}
+            </svg>
+
+            <h3>Distribution of max temperature</h3>
+            <p>Examining Washington state highest/max temperatures compared to the rest of the states. 
+                In comparison to other U.S. states, Washington State (red) max temperature stays consistent from 70 - 85 F as indicated 
+                by the opacity of the red.</p>
+            <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
+                <text 
+                    x={chartSize/2 - 12} 
+                    textAnchor="end"
+                    y={yScale(0) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
+                >
+                    0
+                </text>
+                <text 
+                    x={chartSize/2 - 15} 
+                    textAnchor="end"
+                    y={yScale(100) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
+                >
+                    100
+                </text>
+                <line 
+                    x1={chartSize/2 - 10} 
+                    y1={yScale(100)} 
+                    x2={chartSize / 2 - 5} 
+                    y2={yScale(100)}
+                    stroke = {"black"}                
+                />
+                <line 
+                    x1={chartSize/2 - 10} 
+                    y1={yScale(0)} 
+                    x2={chartSize / 2 - 5} 
+                    y2={yScale(0)}
+                    stroke = {"black"}                
+                />
+                {dataSmallSample.map((measurement, index) => {
+                    const highlight = measurement.state == "WA";
+                  return <line 
+                            key={index}
+                            x1={highlight ? chartSize/2 : chartSize/2 + 20} 
+                            y1={yScale(measurement.TMAX)}
+                            x2={highlight ? chartSize / 2 + 20 : chartSize/2 + 40} 
+                            y2={yScale(measurement.TMAX)} 
+                            stroke = {highlight ? "red" : "steelblue"}
+                            strokeOpacity = {.5}
+                        />
+                })}
+            </svg>
+
+            <h3>Vs. Distribution of max temperature of all U.S. States</h3>
+            <p>Similar to Washington, the U.S. sttate average high temperature range from 70 - 90 F</p>
+            <svg width={chartSize} height={chartSize} style={{ border: "1px solid black" }}>
+                {tmaxBins.map((bin, i) => {
+                return (
+                    <rect
+                        y={chartSize - 10 - bin.length}
+                        width="10"
+                        height={bin.length}
+                        x={histogramLeftPadding + i * 11}
+                        fill = "steelblue"
+                    />
+                );
+                })}
+            </svg>
+            
+            <h3>Distribution of min temperature</h3>
+            <p>Examining Washington state lowest/min temperatures compared to the rest of the states. 
+                In comparison to other states, Washington State (red) min temperature stays consistent from 50 - 65 F as indicated 
+                by the opacity of the red. Though there is a great distribution is lower areas like 30 - 40 F with a small dip below 0 F.</p>
+            <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
+                <text 
+                    x={chartSize/2 - 12} 
+                    textAnchor="end"
+                    y={xScale(0) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
+                >
+                    0
+                </text>
+                <text 
+                    x={chartSize/2 - 15} 
+                    textAnchor="end"
+                    y={xScale(100) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
+                >
+                    100
+                </text>
+                <line 
+                    x1={chartSize/2 - 10} 
+                    y1={xScale(100)} 
+                    x2={chartSize / 2 - 5} 
+                    y2={xScale(100)}
+                    stroke = {"black"}                
+                />
+                <line 
+                    x1={chartSize/2 - 10} 
+                    y1={xScale(0)} 
+                    x2={chartSize / 2 - 5} 
+                    y2={xScale(0)}
+                    stroke = {"black"}                
+                />
+                {dataSmallSample.map((measurement, index) => {
+                    const highlight = measurement.state == "WA";
+                  return <line 
+                            key={index}
+                            x1={highlight ? chartSize/2 : chartSize/2 + 20} 
+                            y1={xScale(measurement.TMIN)}
+                            x2={highlight ? chartSize / 2 + 20 : chartSize/2 + 40} 
+                            y2={xScale(measurement.TMIN)} 
+                            stroke = {highlight ? "red" : "steelblue"}
+                            strokeOpacity = {.5}
+                        />
+                })}
+            </svg>
+            
+            <h3>Distribution of snow fall</h3>
+            <p>Comparing Washington state daily snow fall (red) to the rest of the country's (blue) daily snow fall. There is a big differences in that Washington State has
+                way less snow fall daily compared to other U.S. States. But Washington state and other U.S. State average snowfall fall still have a similar pattern.</p>
+                <svg width={chartSize} height={chartSize} style={{ border: "1px solid black" }}>
+                    {dataSmallSample.map((measurement, index) => {
+                    const highlight = measurement.state === "WA";
+                    return (
+                        <circle
+                        key={index}
+                        cx={highlight ? 100 - measurement.SNOW : 200 - measurement.SNOW}
+                        cy={chartSize - margin - measurement.SNWD}
+                        r="3"
+                        fill="none"
+                        stroke={highlight ? "red" : "steelblue"}
+                        strokeOpacity="0.2"
+                        />
+                    );
+                    })}
+                </svg>
+
+            <h3>Distribution of precipitation (inch)</h3>
+            <p>Examining Washington state daily precipiation compared to the rest of the U.S. states. 
+                In comparison to other states, Washington State (red) precipiation stays consistent at the lower range 
+                by the opacity of the red. Which is surprsing since WA is known for its rainy wheather.</p>
+            <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
+                <text 
+                    x={chartSize/2 - 12} 
+                    textAnchor="end"
+                    y={pScale(0) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
+                >
+                    0
+                </text>
+                <text 
+                    x={chartSize/2 - 12} 
+                    textAnchor="end"
+                    y={pScale(6) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
+                >
+                    6
+                </text>
+                <line 
+                    x1={chartSize/2 - 10} 
+                    y1={pScale(6)} 
+                    x2={chartSize / 2 - 5} 
+                    y2={pScale(6)}
+                    stroke = {"black"}                
+                />
+                <line 
+                    x1={chartSize/2 - 10} 
+                    y1={pScale(0)} 
+                    x2={chartSize / 2 - 5} 
+                    y2={pScale(0)}
+                    stroke = {"black"}                
+                />
+                {dataSmallSample.map((measurement, index) => {
+                    const highlight = measurement.state == "WA";
+                  return <line 
+                            key={index}
+                            x1={highlight ? chartSize/2 : chartSize/2 + 20} 
+                            y1={pScale(measurement.PRCP)}
+                            x2={highlight ? chartSize / 2 + 20 : chartSize/2 + 40} 
+                            y2={pScale(measurement.PRCP)} 
+                            stroke = {highlight ? "red" : "steelblue"}
+                            strokeOpacity = {.5}
+                        />
+                })}
+            </svg>
+
+
+            {/* below */}
             <h3> Working with geo data </h3>
             <svg width={1000} height={600} style={{ border: "1px solid black" }}>
                 <path d={mapPathString} fill="rgb(200, 200, 200)" />
@@ -103,7 +337,7 @@ const App = () => {
                 />
             );
             })}
-      </svg>
+        </svg>
 
 
 
