@@ -26298,9 +26298,14 @@ try {
     const projection = d3.geoNaturalEarth1();
     const path = d3.geoPath(projection);
     const mapPathString = path(land);
+    const maxTemp = d3.max(data, function (d) {
+      return d.TMAX;
+    });
     const chartSize = 500;
     const margin = 20;
     const axisTextAlignmentFactor = 3;
+    const barcodeLength = 100;
+    const tickLength = 8;
     const yScale = _d3Scale.scaleLinear().domain(TMAXextent).// unit: km
     range([chartSize - margin, chartSize - 350]);
     // unit: pixels
@@ -26322,28 +26327,28 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 61,
+          lineNumber: 65,
           columnNumber: 9
         }
       }, /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 62,
+          lineNumber: 66,
           columnNumber: 13
         }
       }, loading && "Loading data!"), /*#__PURE__*/_reactDefault.default.createElement("h2", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 65,
+          lineNumber: 69,
           columnNumber: 13
         }
       }, "Dataset: Daily Weather in the U.S., 2017"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 66,
+          lineNumber: 70,
           columnNumber: 13
         }
       }, "This dataset contains daily weather measurements from weather stations across the US in 2017, provided by the ", /*#__PURE__*/_reactDefault.default.createElement("a", {
@@ -26352,91 +26357,91 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 66,
+          lineNumber: 70,
           columnNumber: 126
         }
       }, "NOAA Daily Global Historical Climatology Network."), " This data has been transformed and there are a total of 1,000 weather measurements: some weather stations with only sparse measurements have been filtered out. "), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 67,
+          lineNumber: 71,
           columnNumber: 13
         }
       }, "Column description:"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 68,
+          lineNumber: 72,
           columnNumber: 13
         }
       }, "PRCP = Precipitation (inch), SNOW = Snowfall (inch), SNWD = Snow depth (inch), TMAX = Maximum temperature (F), TMIN = Minimum temperature (F), TAVG = Average temperature (F), AWND = Average daily wind speed (miles / hour), WSF5 = Fastest 5-second wind speed (miles / hour), WDF5 = Direction of fastest 5-second wind (degrees)"), /*#__PURE__*/_reactDefault.default.createElement("hr", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 80,
+          lineNumber: 84,
           columnNumber: 13
         }
       }), /*#__PURE__*/_reactDefault.default.createElement("h2", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 82,
+          lineNumber: 86,
           columnNumber: 13
         }
       }, "Analysis Questions"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 83,
-          columnNumber: 13
-        }
-      }, "Does Washington State have a unique climate compared to other U.S. States? "), /*#__PURE__*/_reactDefault.default.createElement("h4", {
-        __self: undefined,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 85,
-          columnNumber: 13
-        }
-      }, "Specific Questions:"), /*#__PURE__*/_reactDefault.default.createElement("p", {
-        __self: undefined,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 86,
-          columnNumber: 13
-        }
-      }, "1. Compared to other states, is Washington state average temperature normal?"), /*#__PURE__*/_reactDefault.default.createElement("p", {
-        __self: undefined,
-        __source: {
-          fileName: _jsxFileName,
           lineNumber: 87,
           columnNumber: 13
         }
-      }, "2. Is Washington one of the states with the highest recorded temperature?"), /*#__PURE__*/_reactDefault.default.createElement("p", {
-        __self: undefined,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 88,
-          columnNumber: 13
-        }
-      }, "3. Is Washington one of the states with the lowest recorded temperature?"), /*#__PURE__*/_reactDefault.default.createElement("p", {
+      }, "Does the state of Washington and the state of Hawaii have a similar climate? "), /*#__PURE__*/_reactDefault.default.createElement("h4", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
           lineNumber: 89,
           columnNumber: 13
         }
-      }, "4. What is the average snowfall per state recorded in 2017?"), /*#__PURE__*/_reactDefault.default.createElement("hr", {
+      }, "Specific Questions:"), /*#__PURE__*/_reactDefault.default.createElement("p", {
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 90,
+          columnNumber: 13
+        }
+      }, "1. Compared to other states in America, is Hawaii and Washington and state average temperature normal?"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
           lineNumber: 91,
           columnNumber: 13
         }
-      }), /*#__PURE__*/_reactDefault.default.createElement("p", {
+      }, "2. Is Washington one of the states with the highest recorded temperature?"), /*#__PURE__*/_reactDefault.default.createElement("p", {
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 92,
+          columnNumber: 13
+        }
+      }, "3. Is Washington one of the states with the lowest recorded temperature?"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
           lineNumber: 93,
+          columnNumber: 13
+        }
+      }, "4. What is the average snowfall per state recorded in 2017?"), /*#__PURE__*/_reactDefault.default.createElement("hr", {
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 95,
+          columnNumber: 13
+        }
+      }), /*#__PURE__*/_reactDefault.default.createElement("p", {
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 97,
           columnNumber: 13
         }
       }, "Sanity check to see if all data points are from the U.S. States. Noticed there are small amount of data points from U.S. territories like Guam, Puerto Rico, and U.S. Virgin Islands. Based on this observation, the data will be transformed to include only U.S. state data."), /*#__PURE__*/_reactDefault.default.createElement("svg", {
@@ -26448,7 +26453,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 95,
+          lineNumber: 99,
           columnNumber: 13
         }
       }, /*#__PURE__*/_reactDefault.default.createElement("path", {
@@ -26457,7 +26462,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 96,
+          lineNumber: 100,
           columnNumber: 17
         }
       }), dataSmallSample.map(measurement => {
@@ -26471,7 +26476,7 @@ try {
             __self: undefined,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 99,
+              lineNumber: 103,
               columnNumber: 21
             }
           })
@@ -26480,17 +26485,17 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 111,
+          lineNumber: 115,
           columnNumber: 13
         }
       }, "Distribution of average temperature"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 112,
+          lineNumber: 116,
           columnNumber: 13
         }
-      }, "Comparing Washington state daily average tempereature (red) to the rest of the country's (blue) daily average temperature. Despite some salient differences for lower average temperature, Washington state and other U.S. State average temperature have a high level of association."), /*#__PURE__*/_reactDefault.default.createElement("svg", {
+      }, "Comparing Hawaii and Washington state daily average tempereature to the rest of the country's daily average temperature. Despite some salient differences for lower average temperature, Washington state and other U.S. State average temperature have a high level of association. Though, opposite is true Hawaii. Hawaii has a higher average temperature compared to the rest of the U.S."), /*#__PURE__*/_reactDefault.default.createElement("svg", {
         width: chartSize,
         height: chartSize,
         style: {
@@ -26499,16 +26504,152 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 114,
+          lineNumber: 118,
           columnNumber: 13
         }
-      }, dataSmallSample.map((measurement, index) => {
+      }, /*#__PURE__*/_reactDefault.default.createElement("text", {
+        x: barcodeLength,
+        textAnchor: "end",
+        y: chartSize - margin + axisTextAlignmentFactor - 20,
+        style: {
+          fontSize: 15,
+          fontFamily: "Gill Sans, sans serif"
+        },
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 120,
+          columnNumber: 22
+        }
+      }, "0"), /*#__PURE__*/_reactDefault.default.createElement("text", {
+        x: barcodeLength,
+        textAnchor: "end",
+        y: chartSize - margin + axisTextAlignmentFactor - 150,
+        style: {
+          fontSize: 15,
+          fontFamily: "Gill Sans, sans serif"
+        },
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 128,
+          columnNumber: 21
+        }
+      }, maxTemp), /*#__PURE__*/_reactDefault.default.createElement("text", {
+        x: chartSize - barcodeLength + axisTextAlignmentFactor,
+        textAnchor: "end",
+        y: chartSize - margin + axisTextAlignmentFactor - 20,
+        style: {
+          fontSize: 15,
+          fontFamily: "Gill Sans, sans serif"
+        },
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 136,
+          columnNumber: 21
+        }
+      }, "0"), /*#__PURE__*/_reactDefault.default.createElement("text", {
+        x: chartSize - barcodeLength + axisTextAlignmentFactor + 30,
+        textAnchor: "end",
+        y: chartSize - margin + axisTextAlignmentFactor - 150,
+        style: {
+          fontSize: 15,
+          fontFamily: "Gill Sans, sans serif"
+        },
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 144,
+          columnNumber: 21
+        }
+      }, maxTemp), /*#__PURE__*/_reactDefault.default.createElement("line", {
+        x1: chartSize / 4 - tickLength,
+        y1: chartSize - margin + axisTextAlignmentFactor - 150,
+        x2: chartSize / 4 - tickLength * 2,
+        y2: chartSize - margin + axisTextAlignmentFactor - 150,
+        stroke: "black",
+        "stroke-width": "3",
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 152,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/_reactDefault.default.createElement("line", {
+        x1: chartSize / 4 - tickLength,
+        y1: chartSize - margin - 20,
+        x2: chartSize / 4 - tickLength * 2,
+        y2: chartSize - margin - 20,
+        stroke: "black",
+        "stroke-width": "3",
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 160,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/_reactDefault.default.createElement("line", {
+        x1: chartSize - chartSize / 4 + tickLength * 2,
+        y1: chartSize - margin + axisTextAlignmentFactor - 150,
+        x2: chartSize - chartSize / 4 + tickLength,
+        y2: chartSize - margin + axisTextAlignmentFactor - 150,
+        stroke: "black",
+        "stroke-width": "3",
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 168,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/_reactDefault.default.createElement("line", {
+        x1: chartSize - chartSize / 4 + tickLength * 2,
+        y1: chartSize - margin - 20,
+        x2: chartSize - chartSize / 4 + tickLength,
+        y2: chartSize - margin - 20,
+        stroke: "black",
+        "stroke-width": "3",
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 176,
+          columnNumber: 21
+        }
+      }), /*#__PURE__*/_reactDefault.default.createElement("text", {
+        x: chartSize / 2 + margin / 2 - 40,
+        textAnchor: "end",
+        y: chartSize - margin / 2.5,
+        style: {
+          fontSize: 18,
+          fontFamily: "Gill Sans, sans serif"
+        },
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 188,
+          columnNumber: 21
+        }
+      }, "Hawaii vs. U.S."), /*#__PURE__*/_reactDefault.default.createElement("text", {
+        x: chartSize - chartSize / 10 - margin / 2,
+        textAnchor: "end",
+        y: chartSize - margin / 2.5,
+        style: {
+          fontSize: 18,
+          fontFamily: "Gill Sans, sans serif"
+        },
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 196,
+          columnNumber: 21
+        }
+      }, "Washington vs. U.S."), dataSmallSample.map((measurement, index) => {
         const highlight = measurement.state == "WA";
         return (
           /*#__PURE__*/_reactDefault.default.createElement("circle", {
             key: index,
-            cx: highlight ? chartSize / 2 : chartSize / 2 + 20,
-            cy: chartSize - margin - measurement.TAVG,
+            cx: highlight ? chartSize / 2 + 100 : chartSize / 2 + 120,
+            cy: chartSize - margin - measurement.TAVG - 50,
             fill: "none",
             stroke: highlight ? "red" : "steelblue",
             strokeOpacity: "0.2",
@@ -26516,7 +26657,26 @@ try {
             __self: undefined,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 117,
+              lineNumber: 206,
+              columnNumber: 26
+            }
+          })
+        );
+      }), dataSmallSample.map((measurement, index) => {
+        const hight2 = measurement.state == "HI";
+        return (
+          /*#__PURE__*/_reactDefault.default.createElement("circle", {
+            key: index,
+            cx: hight2 ? chartSize / 4 : chartSize / 4 + 20,
+            cy: chartSize - margin - measurement.TAVG - 50,
+            fill: "none",
+            stroke: hight2 ? "red" : "steelblue",
+            strokeOpacity: "0.2",
+            r: "3",
+            __self: undefined,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 217,
               columnNumber: 26
             }
           })
@@ -26525,14 +26685,14 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 128,
+          lineNumber: 228,
           columnNumber: 13
         }
       }, "Distribution of max temperature"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 129,
+          lineNumber: 229,
           columnNumber: 13
         }
       }, "Examining Washington state highest/max temperatures compared to the rest of the states. In comparison to other U.S. states, Washington State (red) max temperature stays consistent from 70 - 85 F as indicated by the opacity of the red."), /*#__PURE__*/_reactDefault.default.createElement("svg", {
@@ -26544,7 +26704,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 132,
+          lineNumber: 232,
           columnNumber: 13
         }
       }, /*#__PURE__*/_reactDefault.default.createElement("text", {
@@ -26558,7 +26718,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 133,
+          lineNumber: 233,
           columnNumber: 17
         }
       }, "0"), /*#__PURE__*/_reactDefault.default.createElement("text", {
@@ -26572,7 +26732,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 141,
+          lineNumber: 241,
           columnNumber: 17
         }
       }, "100"), /*#__PURE__*/_reactDefault.default.createElement("line", {
@@ -26584,7 +26744,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 149,
+          lineNumber: 249,
           columnNumber: 17
         }
       }), /*#__PURE__*/_reactDefault.default.createElement("line", {
@@ -26596,7 +26756,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 156,
+          lineNumber: 256,
           columnNumber: 17
         }
       }), dataSmallSample.map((measurement, index) => {
@@ -26613,7 +26773,7 @@ try {
             __self: undefined,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 165,
+              lineNumber: 265,
               columnNumber: 26
             }
           })
@@ -26622,14 +26782,14 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 177,
+          lineNumber: 277,
           columnNumber: 13
         }
       }, "Vs. Distribution of max temperature of all U.S. States"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 178,
+          lineNumber: 278,
           columnNumber: 13
         }
       }, "Similar to Washington, the U.S. sttate average high temperature range from 70 - 90 F"), /*#__PURE__*/_reactDefault.default.createElement("svg", {
@@ -26641,7 +26801,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 179,
+          lineNumber: 279,
           columnNumber: 13
         }
       }, tmaxBins.map((bin, i) => {
@@ -26655,7 +26815,7 @@ try {
             __self: undefined,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 182,
+              lineNumber: 282,
               columnNumber: 21
             }
           })
@@ -26664,14 +26824,14 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 193,
+          lineNumber: 293,
           columnNumber: 13
         }
       }, "Distribution of min temperature"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 194,
+          lineNumber: 294,
           columnNumber: 13
         }
       }, "Examining Washington state lowest/min temperatures compared to the rest of the states. In comparison to other states, Washington State (red) min temperature stays consistent from 50 - 65 F as indicated by the opacity of the red. Though there is a great distribution is lower areas like 30 - 40 F with a small dip below 0 F."), /*#__PURE__*/_reactDefault.default.createElement("svg", {
@@ -26683,7 +26843,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 197,
+          lineNumber: 297,
           columnNumber: 13
         }
       }, /*#__PURE__*/_reactDefault.default.createElement("text", {
@@ -26697,7 +26857,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 198,
+          lineNumber: 298,
           columnNumber: 17
         }
       }, "0"), /*#__PURE__*/_reactDefault.default.createElement("text", {
@@ -26711,7 +26871,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 206,
+          lineNumber: 306,
           columnNumber: 17
         }
       }, "100"), /*#__PURE__*/_reactDefault.default.createElement("line", {
@@ -26723,7 +26883,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 214,
+          lineNumber: 314,
           columnNumber: 17
         }
       }), /*#__PURE__*/_reactDefault.default.createElement("line", {
@@ -26735,7 +26895,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 221,
+          lineNumber: 321,
           columnNumber: 17
         }
       }), dataSmallSample.map((measurement, index) => {
@@ -26752,7 +26912,7 @@ try {
             __self: undefined,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 230,
+              lineNumber: 330,
               columnNumber: 26
             }
           })
@@ -26761,14 +26921,14 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 242,
+          lineNumber: 342,
           columnNumber: 13
         }
       }, "Distribution of snow fall"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 243,
+          lineNumber: 343,
           columnNumber: 13
         }
       }, "Comparing Washington state daily snow fall (red) to the rest of the country's (blue) daily snow fall. There is a big differences in that Washington State has way less snow fall daily compared to other U.S. States. But Washington state and other U.S. State average snowfall fall still have a similar pattern."), /*#__PURE__*/_reactDefault.default.createElement("svg", {
@@ -26780,7 +26940,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 245,
+          lineNumber: 345,
           columnNumber: 17
         }
       }, dataSmallSample.map((measurement, index) => {
@@ -26797,7 +26957,7 @@ try {
             __self: undefined,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 249,
+              lineNumber: 349,
               columnNumber: 25
             }
           })
@@ -26806,14 +26966,14 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 262,
+          lineNumber: 362,
           columnNumber: 13
         }
       }, "Distribution of precipitation (inch)"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 263,
+          lineNumber: 363,
           columnNumber: 13
         }
       }, "Examining Washington state daily precipiation compared to the rest of the U.S. states. In comparison to other states, Washington State (red) precipiation stays consistent at the lower range by the opacity of the red. Which is surprsing since WA is known for its rainy wheather."), /*#__PURE__*/_reactDefault.default.createElement("svg", {
@@ -26825,7 +26985,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 266,
+          lineNumber: 366,
           columnNumber: 13
         }
       }, /*#__PURE__*/_reactDefault.default.createElement("text", {
@@ -26839,7 +26999,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 267,
+          lineNumber: 367,
           columnNumber: 17
         }
       }, "0"), /*#__PURE__*/_reactDefault.default.createElement("text", {
@@ -26853,7 +27013,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 275,
+          lineNumber: 375,
           columnNumber: 17
         }
       }, "6"), /*#__PURE__*/_reactDefault.default.createElement("line", {
@@ -26865,7 +27025,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 283,
+          lineNumber: 383,
           columnNumber: 17
         }
       }), /*#__PURE__*/_reactDefault.default.createElement("line", {
@@ -26877,7 +27037,7 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 290,
+          lineNumber: 390,
           columnNumber: 17
         }
       }), dataSmallSample.map((measurement, index) => {
@@ -26894,7 +27054,7 @@ try {
             __self: undefined,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 299,
+              lineNumber: 399,
               columnNumber: 26
             }
           })
@@ -26903,28 +27063,28 @@ try {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 311,
+          lineNumber: 411,
           columnNumber: 13
         }
       }, "Final write up"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 312,
+          lineNumber: 412,
           columnNumber: 13
         }
       }, "The goal of this analysis was to explore the question: Does Washington State have a unique climate compared to other U.S. States? To help explore this topic, I came up with a few sub questions to lead this exploration: 1. Compared to other states, is Washington state average temperature normal? 2. Is Washington one of the states with the highest recorded temperature? 3. Is Washington one of the states with the lowest recorded temperature? 4. What is the average snowfall per state recorded in 2017?"), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 318,
+          lineNumber: 418,
           columnNumber: 13
         }
       }, "After coming up with these questions, I used tableau to explore the data further. I gained insight into how the data was formatted and was able to see that no further data wrangling was needed as the data already excluded null data. Though upon further investigation, I noticed there are data points from U.S. territories which I decided to remove for the purpose of only comparing U.S. states."), /*#__PURE__*/_reactDefault.default.createElement("p", {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 322,
+          lineNumber: 422,
           columnNumber: 13
         }
       }, "Through creating these visualization, I saw that Washington state climate is slightly unique compared to other states. In that Washington statet weather is consistently not too hot or too cold. But one thing that was suprising was that, Washingtotn did not have the highest precipiation rate! Considering it is seen as a rainy/evergreen state. Lastly, my main take away from this assighnment is the data exploration is important in helping aid a great visualization. Exploring helps you to understand the data at its core which can lead to great questions."))
