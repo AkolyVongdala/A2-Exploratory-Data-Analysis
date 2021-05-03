@@ -87,8 +87,8 @@ const App = () => {
             <p>Does the state of Washington and the state of Hawaii have a similar climate? </p>
 
             <h4>Specific Questions:</h4>
-            <p>1. Compared to other states in America, is Hawaii and Washington and state average temperature normal?</p>
-            <p>2. Is Washington one of the states with the highest recorded temperature?</p>
+            <p>1. Compared to other states in America, is Hawaii and Washington state average temperature normal?</p>
+            <p>2. Is Hawaii one of the states with the highest recorded temperatures?</p>
             <p>3. Is Washington one of the states with the lowest recorded temperature?</p>
             <p>4. What is the average snowfall per state recorded in 2017?</p>
 
@@ -181,10 +181,6 @@ const App = () => {
                         stroke={"black"}
                         stroke-width= {"3"} />
 
-
-
-
-
                     <text 
                     x={chartSize / 2 + margin / 2 - 40}  
                     textAnchor="end"
@@ -226,9 +222,9 @@ const App = () => {
             </svg>
 
             <h3>Distribution of max temperature</h3>
-            <p>Examining Washington state highest/max temperatures compared to the rest of the states. 
-                In comparison to other U.S. states, Washington State (red) max temperature stays consistent from 70 - 85 F as indicated 
-                by the opacity of the red.</p>
+            <p>Examining Hawaii and Washington state highest/max temperatures compared to the rest of the states. 
+                In comparison to other U.S. states, Washington State max temperature seems to closely mirror other state high temperature.
+                Meanwhile, Hawaii is still exhibiting higher temperature compared to the rest of the States.</p>
             <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
                 <text 
                     x={chartSize/2 - 12} 
@@ -244,7 +240,7 @@ const App = () => {
                     y={yScale(100) + axisTextAlignmentFactor} 
                     style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
                 >
-                    100
+                    {maxTemp}
                 </text>
                 <line 
                     x1={chartSize/2 - 10} 
@@ -260,6 +256,13 @@ const App = () => {
                     y2={yScale(0)}
                     stroke = {"black"}                
                 />
+                <text 
+                    x={chartSize / 2 + margin / 2 - 40}  
+                    textAnchor="end"
+                    y={chartSize - margin / 2.5} 
+                    style={{ fontSize: 18, fontFamily: "Gill Sans, sans serif" }}>
+                        Washington vs. U.S. 
+                </text>
                 {dataSmallSample.map((measurement, index) => {
                     const highlight = measurement.state == "WA";
                   return <line 
@@ -274,13 +277,80 @@ const App = () => {
                 })}
             </svg>
 
-            <h3>Vs. Distribution of max temperature of all U.S. States</h3>
-            <p>Similar to Washington, the U.S. sttate average high temperature range from 70 - 90 F</p>
+            <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
+                <text 
+                    x={chartSize/2 - 12} 
+                    textAnchor="end"
+                    y={yScale(0) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
+                >
+                    0
+                </text>
+                <text 
+                    x={chartSize/2 - 15} 
+                    textAnchor="end"
+                    y={yScale(100) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
+                >
+                    {maxTemp}
+                </text>
+                <line 
+                    x1={chartSize/2 - 10} 
+                    y1={yScale(100)} 
+                    x2={chartSize / 2 - 5} 
+                    y2={yScale(100)}
+                    stroke = {"black"}                
+                />
+                <line 
+                    x1={chartSize/2 - 10} 
+                    y1={yScale(0)} 
+                    x2={chartSize / 2 - 5} 
+                    y2={yScale(0)}
+                    stroke = {"black"}                
+                />
+                <text 
+                    x={chartSize / 2 + margin / 2 - 40}  
+                    textAnchor="end"
+                    y={chartSize - margin / 2.5} 
+                    style={{ fontSize: 18, fontFamily: "Gill Sans, sans serif" }}>
+                        Hawaii vs. U.S. 
+                </text>
+                {dataSmallSample.map((measurement, index) => {
+                    const highlight = measurement.state == "HI";
+                  return <line 
+                            key={index}
+                            x1={highlight ? chartSize/2 : chartSize/2 + 20} 
+                            y1={yScale(measurement.TMAX)}
+                            x2={highlight ? chartSize / 2 + 20 : chartSize/2 + 40} 
+                            y2={yScale(measurement.TMAX)} 
+                            stroke = {highlight ? "red" : "steelblue"}
+                            strokeOpacity = {.5}
+                        />
+                })}
+            </svg>
+
+            <h3>Distribution of max temperature of all U.S. States</h3>
+            <p>Similar to Washington, the U.S. sttate average high temperature range from 70 - 80 F</p>
             <svg width={chartSize} height={chartSize} style={{ border: "1px solid black" }}>
+                
+                <text 
+                    x={chartSize - margin - 150}  
+                    textAnchor="end"
+                    y={chartSize - margin / 2.5} 
+                    style={{ fontSize: 18, fontFamily: "Gill Sans, sans serif" }}>
+                        {maxTemp} 
+                </text>
+                <text 
+                    x={chartSize - margin - 420}  
+                    textAnchor="end"
+                    y={chartSize - margin / 2.5} 
+                    style={{ fontSize: 18, fontFamily: "Gill Sans, sans serif" }}>
+                        0 
+                </text>
                 {tmaxBins.map((bin, i) => {
                 return (
                     <rect
-                        y={chartSize - 10 - bin.length}
+                        y={chartSize - margin - bin.length - 5}
                         width="10"
                         height={bin.length}
                         x={histogramLeftPadding + i * 11}
@@ -291,48 +361,109 @@ const App = () => {
             </svg>
             
             <h3>Distribution of min temperature</h3>
-            <p>Examining Washington state lowest/min temperatures compared to the rest of the states. 
-                In comparison to other states, Washington State (red) min temperature stays consistent from 50 - 65 F as indicated 
-                by the opacity of the red. Though there is a great distribution is lower areas like 30 - 40 F with a small dip below 0 F.</p>
+            <p>Examining Hawaii and Washington state lowest/min temperatures compared to the rest of the states. 
+                In comparison to other states, Washington State min temperature stays consistent from 50 - 65 F as indicated 
+                by the opacity of the red. Though there is a great distribution is lower areas like 30 - 40 F with a no dip below 0 F.
+                For Hawaii,the concentration of min temeperature is around 70 - 80 which is similar to Washington max temperature distribution.</p>
             <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
                 <text 
-                    x={chartSize/2 - 12} 
+                    x={chartSize/2 - 20} 
                     textAnchor="end"
                     y={xScale(0) + axisTextAlignmentFactor} 
-                    style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
+                    style={{ fontSize: 15 , fontFamily: "Gill San, sans serif"}}
                 >
                     0
                 </text>
                 <text 
-                    x={chartSize/2 - 15} 
+                    x={chartSize/2 - 20} 
                     textAnchor="end"
-                    y={xScale(100) + axisTextAlignmentFactor} 
-                    style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
+                    y={xScale(99.86) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 15 , fontFamily: "Gill San, sans serif"}}
                 >
-                    100
+                    {maxTemp}
                 </text>
                 <line 
-                    x1={chartSize/2 - 10} 
+                    x1={chartSize/2 - 70} 
                     y1={xScale(100)} 
-                    x2={chartSize / 2 - 5} 
+                    x2={chartSize / 2 - 60} 
                     y2={xScale(100)}
                     stroke = {"black"}                
                 />
                 <line 
-                    x1={chartSize/2 - 10} 
+                    x1={chartSize/2 - 70} 
                     y1={xScale(0)} 
-                    x2={chartSize / 2 - 5} 
+                    x2={chartSize / 2 - 60} 
                     y2={xScale(0)}
                     stroke = {"black"}                
                 />
+
+                <text 
+                    x={chartSize/2 + 70} 
+                    textAnchor="end"
+                    y={xScale(0) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 15 , fontFamily: "Gill San, sans serif"}}
+                >
+                    0
+                </text>
+                <text 
+                    x={chartSize/2 + 70} 
+                    textAnchor="end"
+                    y={xScale(99.86) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 15 , fontFamily: "Gill San, sans serif"}}
+                >
+                    {maxTemp}
+                </text>
+                <line 
+                    x1={chartSize/2 + 90} 
+                    y1={xScale(100)} 
+                    x2={chartSize / 2 + 80} 
+                    y2={xScale(100)}
+                    stroke = {"black"}                
+                />
+                <line 
+                    x1={chartSize/2 + 90} 
+                    y1={xScale(0)} 
+                    x2={chartSize / 2 + 80} 
+                    y2={xScale(0)}
+                    stroke = {"black"}                
+                />
+
+                    <text 
+                    x={chartSize / 2 + margin / 2 - 40}  
+                    textAnchor="end"
+                    y={chartSize - margin / 2.5} 
+                    style={{ fontSize: 18, fontFamily: "Gill Sans, sans serif" }}>
+                        Washington vs. U.S. 
+                    </text>
+                    {/* right label */}
+                    <text 
+                    x={chartSize - (chartSize / 10) - margin / 2} 
+                    textAnchor="end"
+                    y={chartSize - margin / 2.5} 
+                    style={{ fontSize: 18, fontFamily: "Gill Sans, sans serif" }}>
+                        Hawaii vs. U.S.
+                    </text>
+
+                {dataSmallSample.map((measurement, index) => {
+                    const highlight = measurement.state == "HI";
+                  return <line 
+                            key={index}
+                            x1={highlight ? chartSize/2 + 100 : chartSize/2 + 120} 
+                            y1={xScale(measurement.TMIN) - margin}
+                            x2={highlight ? chartSize / 2 + 120 : chartSize/2 + 140} 
+                            y2={xScale(measurement.TMIN) - margin} 
+                            stroke = {highlight ? "red" : "steelblue"}
+                            strokeOpacity = {.5}
+                        />
+                })}
                 {dataSmallSample.map((measurement, index) => {
                     const highlight = measurement.state == "WA";
                   return <line 
                             key={index}
-                            x1={highlight ? chartSize/2 : chartSize/2 + 20} 
-                            y1={xScale(measurement.TMIN)}
-                            x2={highlight ? chartSize / 2 + 20 : chartSize/2 + 40} 
-                            y2={xScale(measurement.TMIN)} 
+                            x1={highlight ? chartSize/4 : chartSize/4 + 20} 
+                            y1={xScale(measurement.TMIN) - margin}
+                            x2={highlight ? chartSize / 4 + 20 : chartSize / 4 + 40} 
+                            y2={xScale(measurement.TMIN) - margin} 
                             stroke = {highlight ? "red" : "steelblue"}
                             strokeOpacity = {.5}
                         />
@@ -343,16 +474,77 @@ const App = () => {
             <p>Comparing Washington state daily snow fall (red) to the rest of the country's (blue) daily snow fall. There is a big differences in that Washington State has
                 way less snow fall daily compared to other U.S. States. But Washington state and other U.S. State average snowfall fall still have a similar pattern.</p>
                 <svg width={chartSize} height={chartSize} style={{ border: "1px solid black" }}>
+                    {/* y axis */}
+                    <line 
+                        x1={margin * 2} 
+                        y1={margin * 3} 
+                        x2={margin * 2} 
+                        y2={chartSize - margin * 2}
+                        stroke={"black"}
+                        stroke-width= {"3"} />
+                    {/* x axis */}
+                    <line 
+                        x1={margin * 2} 
+                        y1={chartSize - margin * 2} 
+                        x2={chartSize - margin * 2} 
+                        y2={chartSize - margin * 2}
+                        stroke={"black"}
+                        stroke-width= {"3"} />
+                    
+                    {/* -40 */}
+                    <text 
+                    x={margin * 2 - axisTextAlignmentFactor} 
+                    textAnchor="end"
+                    y={chartSize - margin * 2 + axisTextAlignmentFactor * 2} 
+                    style={{ fontSize: 15, fontFamily: "Gill Sans, sans serif" }}>
+                        0
+                    </text>
+                    {/* y max */}
+                    <text 
+                    x={margin * 2 - axisTextAlignmentFactor * 2} 
+                    textAnchor="end"
+                    y={margin * 3 + axisTextAlignmentFactor * 2} 
+                    style={{ fontSize: 15, fontFamily: "Gill Sans, sans serif" }}>
+                        5.5
+                    </text>
+                    {/* x max */}
+                    <text 
+                    x={chartSize - margin * 2} 
+                    textAnchor="end"
+                    y={chartSize - margin * 2 + axisTextAlignmentFactor * 4 + 5} 
+                    style={{ fontSize: 15, fontFamily: "Gill Sans, sans serif" }}>
+                        20
+                    </text>
+                    {/* x axis label */}
+                    <text 
+                    x={chartSize / 2} 
+                    textAnchor="end"
+                    y={chartSize - margin * 2 + axisTextAlignmentFactor * 4} 
+                    style={{ fontSize: 12, fontFamily: "Gill Sans, sans serif" }}>
+                        Snow depth (inches)
+                    </text>
+                    {/* y axis label */}
+                    <text 
+                    x={margin * 2 - axisTextAlignmentFactor + 85} 
+                    textAnchor="end"
+                    y={chartSize / 2 } 
+                    style={{ fontSize: 12, fontFamily: "Gill Sans, sans serif" }}>
+                        Snow fall (inches)
+                    </text>
+
                     {dataSmallSample.map((measurement, index) => {
-                    const highlight = measurement.state === "WA";
+                    //const highlight = measurement.state === "WA";
+                    if (measurement.state === "WA") {
+                        return null
+                    }
                     return (
                         <circle
                         key={index}
-                        cx={highlight ? 100 - measurement.SNOW : 200 - measurement.SNOW}
-                        cy={chartSize - margin - measurement.SNWD}
+                        cx={250 + measurement.SNWD}
+                        cy={chartSize - margin - 150 - measurement.SNOW}
                         r="3"
                         fill="none"
-                        stroke={highlight ? "red" : "steelblue"}
+                        stroke={"red" }
                         strokeOpacity="0.2"
                         />
                     );
