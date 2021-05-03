@@ -2,7 +2,7 @@ import React from "react";
 import { useFetch } from "./hooks/useFetch";
 import { scaleLinear } from "d3-scale";
 import { extent, max, min, bin } from "d3-array";
-import { scale } from "vega";
+import { None, scale } from "vega";
 import * as topojson from "topojson-client";
 import world from "../land-50m";
 // import world from "../states-10m.json";
@@ -471,7 +471,7 @@ const App = () => {
             </svg>
             
             <h3>Distribution of snow fall</h3>
-            <p>Comparing Washington state daily snow fall (red) to the rest of the country's (blue) daily snow fall. There is a big differences in that Washington State has
+            <p>Comparing Washington daily snow fall (red) to the rest of the country's (blue) daily snow fall. There is a big differences in that Washington State has
                 way less snow fall daily compared to other U.S. States. But Washington state and other U.S. State average snowfall fall still have a similar pattern.</p>
                 <svg width={chartSize} height={chartSize} style={{ border: "1px solid black" }}>
                     {/* y axis */}
@@ -525,7 +525,7 @@ const App = () => {
                     </text>
                     {/* y axis label */}
                     <text 
-                    x={margin * 2 - axisTextAlignmentFactor + 85} 
+                    x={margin * 2 - axisTextAlignmentFactor + 100} 
                     textAnchor="end"
                     y={chartSize / 2 } 
                     style={{ fontSize: 12, fontFamily: "Gill Sans, sans serif" }}>
@@ -535,57 +535,99 @@ const App = () => {
                     {dataSmallSample.map((measurement, index) => {
                     //const highlight = measurement.state === "WA";
                     if (measurement.state === "WA") {
-                        return null
+                        return (
+                            <circle
+                            key={index}
+                            cx={250 + measurement.SNWD}
+                            cy={chartSize - margin - 150 - measurement.SNOW}
+                            r="5"
+                            fill="none"
+                            stroke={"red" }
+                            strokeOpacity="10"
+                            />
+                        )
                     }
-                    return (
-                        <circle
-                        key={index}
-                        cx={250 + measurement.SNWD}
-                        cy={chartSize - margin - 150 - measurement.SNOW}
-                        r="3"
-                        fill="none"
-                        stroke={"red" }
-                        strokeOpacity="0.2"
-                        />
-                    );
                     })}
+
+                    {dataSmallSample.map((measurement, index) => {
+                            return (
+                                <circle 
+                                    key={index} 
+                                    cx={250 + +measurement.SNWD} 
+                                    cy={chartSize - margin - 150 - +measurement.SNOW} 
+                                    r="1.5" 
+                                    stroke="steelblue"
+                                    fill= "none"
+                                    stroke-opacity="0.2"  /> 
+                            );
+                    
+                    })} 
                 </svg>
 
             <h3>Distribution of precipitation (inch)</h3>
-            <p>Examining Washington state daily precipiation compared to the rest of the U.S. states. 
-                In comparison to other states, Washington State (red) precipiation stays consistent at the lower range 
-                by the opacity of the red. Which is surprsing since WA is known for its rainy wheather.</p>
+            <p>Examining Hawaii and Washington state daily precipiation compared to the rest of the U.S. states. 
+                In comparison to other states, Washington State precipiation stays consistent at the lower range 
+                by the opacity of the red. Which is surprsing since WA is known for its rainy wheather. The same is true
+                about Hawaii. Most precipiation stays consistently on the lower rannge.</p>
             <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
                 <text 
-                    x={chartSize/2 - 12} 
+                    x={chartSize/2 + 80} 
+                    textAnchor="end"
+                    y={pScale(15) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 15 , fontFamily: "Gill San, sans serif"}}
+                >
+                    Washington vs. U.S.              
+                </text>
+                <text 
+                    x={chartSize/2 + 200} 
+                    textAnchor="end"
+                    y={pScale(15) + axisTextAlignmentFactor} 
+                    style={{ fontSize: 15 , fontFamily: "Gill San, sans serif"}}
+                >
+                Hawaii vs. U.S.
+                </text>
+                <text 
+                    x={chartSize/2 + 90} 
                     textAnchor="end"
                     y={pScale(0) + axisTextAlignmentFactor} 
-                    style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
+                    style={{ fontSize: 15 , fontFamily: "Gill San, sans serif"}}
                 >
                     0
                 </text>
                 <text 
-                    x={chartSize/2 - 12} 
+                    x={chartSize/2 + 90} 
                     textAnchor="end"
                     y={pScale(6) + axisTextAlignmentFactor} 
-                    style={{ fontSize: 10 , fontFamily: "Gill San, sans serif"}}
+                    style={{ fontSize: 15 , fontFamily: "Gill San, sans serif"}}
                 >
-                    6
+                    6 
                 </text>
                 <line 
-                    x1={chartSize/2 - 10} 
+                    x1={chartSize/2 + 75} 
                     y1={pScale(6)} 
-                    x2={chartSize / 2 - 5} 
+                    x2={chartSize / 2 + 70} 
                     y2={pScale(6)}
                     stroke = {"black"}                
                 />
                 <line 
-                    x1={chartSize/2 - 10} 
+                    x1={chartSize/2 + 75} 
                     y1={pScale(0)} 
-                    x2={chartSize / 2 - 5} 
+                    x2={chartSize / 2 + 70} 
                     y2={pScale(0)}
                     stroke = {"black"}                
                 />
+                {dataSmallSample.map((measurement, index) => {
+                    const highlight = measurement.state == "HI";
+                  return <line 
+                            key={index}
+                            x1={highlight ? chartSize/2 + 100 : chartSize/2 + 120} 
+                            y1={pScale(measurement.PRCP)}
+                            x2={highlight ? chartSize/2 + 120 : chartSize/2 + 140} 
+                            y2={pScale(measurement.PRCP)} 
+                            stroke = {highlight ? "red" : "steelblue"}
+                            strokeOpacity = {.5}
+                        />
+                })}
                 {dataSmallSample.map((measurement, index) => {
                     const highlight = measurement.state == "WA";
                   return <line 
@@ -603,20 +645,28 @@ const App = () => {
             <h3>Final write up</h3>
             <p>The goal of this analysis was to explore the question: Does Washington State have a unique climate compared to other U.S. States?
                 To help explore this topic, I came up with a few sub questions to lead this exploration:
-                1. Compared to other states, is Washington state average temperature normal?
-                2. Is Washington one of the states with the highest recorded temperature?
+                1. Compared to other states in America, is Hawaii and Washington state average temperature normal?
+                2. Is Hawaii one of the states with the highest recorded temperatures?
                 3. Is Washington one of the states with the lowest recorded temperature?
                 4. What is the average snowfall per state recorded in 2017?</p>
             <p>After coming up with these questions, I used tableau to explore the data further. I gained insight into how the data was formatted and was able to see 
                 that no further data wrangling was needed as the data already excluded null data. Though upon further investigation, I noticed there are data points from
                 U.S. territories which I decided to remove for the purpose of only comparing U.S. states.
             </p>
-            <p>Through creating these visualization, I saw that Washington state climate is slightly unique compared to other states.
-                In that Washington statet weather is consistently not too hot or too cold. But one thing that was suprising was that, 
+            <p>Through creating these visualization, I saw that Hawaii and Washington state climate is very unique compared to each other and to other states.
+                In that Washington state weather is consistently not too hot or too cold while Hawaii is consistently at a higher temperature. But one thing that was suprising was that, 
                 Washingtotn did not have the highest precipiation rate! Considering it is seen as a rainy/evergreen state. 
                 Lastly, my main take away from this assighnment is the data exploration is important in helping aid a great visualization. 
                 Exploring helps you to understand the data at its core which can lead to great questions.
             </p>
+
+            <h3>Peer Reviews Notes</h3>
+            <p> Review #1: Charts needs to have labels and tik marks to help viewer digust information better. 
+                For example, the distribution of average temp needs to have labels of which is Hawaii vs. Washington.</p>
+            <p>Change #1: Added chart labels and tiks to chart 2 through 8.</p>
+            <p>Review #2: Adding axes to chart when compaing two variables. For example chart 8 when comparing snowfall and snow depth. </p>
+            <p>Change #2: Added axes title and range. </p>
+            
 
             {/* below */}
             {/* <h3> Working with geo data </h3>
