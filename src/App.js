@@ -30,10 +30,15 @@ const App = () => {
     const projection = d3.geoNaturalEarth1();
     const path = d3.geoPath(projection);
     const mapPathString = path(land);
+    const maxTemp = d3.max(data, function(d){ return d.TMAX; });
 
     const chartSize = 500;
     const margin = 20;
     const axisTextAlignmentFactor = 3;
+    const barcodeLength = 100;
+    const tickLength = 8;
+
+
     const yScale = scaleLinear()
     .domain(TMAXextent) // unit: km
     .range([chartSize - margin, chartSize - 350]); // unit: pixels
@@ -53,14 +58,13 @@ const App = () => {
             return +d.TMAX;
         })
     );
-
     const histogramLeftPadding = 20;
 
     console.log("from hook", loading, data);
     return (
         <div>
             <p>{loading && "Loading data!"}</p>
-            
+
             {/* Introduction */}
             <h2>Dataset: Daily Weather in the U.S., 2017</h2>
             <p>This dataset contains daily weather measurements from weather stations across the US in 2017, provided by the <a target="_black" href="https://www.ncdc.noaa.gov/data-access/land-based-station-data/land-based-datasets/global-historical-climatology-network-ghcn">NOAA Daily Global Historical Climatology Network.</a> This data has been transformed and there are a total of 1,000 weather measurements: some weather stations with only sparse measurements have been filtered out. </p>
@@ -80,10 +84,10 @@ const App = () => {
             <hr />
             {/* Analysis questions*/}
             <h2>Analysis Questions</h2>
-            <p>Does Washington State have a unique climate compared to other U.S. States? </p>
+            <p>Does the state of Washington and the state of Hawaii have a similar climate? </p>
 
             <h4>Specific Questions:</h4>
-            <p>1. Compared to other states, is Washington state average temperature normal?</p>
+            <p>1. Compared to other states in America, is Hawaii and Washington and state average temperature normal?</p>
             <p>2. Is Washington one of the states with the highest recorded temperature?</p>
             <p>3. Is Washington one of the states with the lowest recorded temperature?</p>
             <p>4. What is the average snowfall per state recorded in 2017?</p>
@@ -109,17 +113,113 @@ const App = () => {
 
 
             <h3>Distribution of average temperature</h3>
-            <p>Comparing Washington state daily average tempereature (red) to the rest of the country's (blue) daily average temperature. Despite some salient differences for lower average temperature, 
-                Washington state and other U.S. State average temperature have a high level of association.</p>
+            <p>Comparing Hawaii and Washington state daily average tempereature to the rest of the country's daily average temperature. Despite some salient differences for lower average temperature, 
+                Washington state and other U.S. State average temperature have a high level of association. Though, opposite is true Hawaii. Hawaii has a higher average temperature compared to the rest of the U.S.</p>
             <svg width={chartSize} height={chartSize} style={{border : "1px solid black"}}>
+                     {/* left 0 */}
+                     <text 
+                    x={barcodeLength} 
+                    textAnchor="end"
+                    y={chartSize - margin + axisTextAlignmentFactor - 20} 
+                    style={{ fontSize: 15, fontFamily: "Gill Sans, sans serif" }}>
+                        0
+                    </text>
+                    {/* left 37 */}
+                    <text 
+                    x={barcodeLength} 
+                    textAnchor="end"
+                    y={chartSize - margin + axisTextAlignmentFactor - 150} 
+                    style={{ fontSize: 15, fontFamily: "Gill Sans, sans serif" }}>
+                        {maxTemp}
+                    </text>
+                    {/* right 0 */}
+                    <text 
+                    x={chartSize - barcodeLength + axisTextAlignmentFactor} 
+                    textAnchor="end"
+                    y={chartSize - margin + axisTextAlignmentFactor - 20} 
+                    style={{ fontSize: 15, fontFamily: "Gill Sans, sans serif" }}>
+                        0
+                    </text>
+                    {/* right 37 */}
+                    <text 
+                    x={chartSize - barcodeLength + axisTextAlignmentFactor + 30} 
+                    textAnchor="end"
+                    y={chartSize - margin + axisTextAlignmentFactor - 150} 
+                    style={{ fontSize: 15, fontFamily: "Gill Sans, sans serif" }}>
+                        {maxTemp}
+                    </text>
+                    {/* left 37 tick */}
+                    <line 
+                        x1={chartSize / 4 - tickLength} 
+                        y1={chartSize - margin + axisTextAlignmentFactor - 150}   
+                        x2={chartSize / 4 - tickLength * 2} 
+                        y2={chartSize - margin + axisTextAlignmentFactor - 150}
+                        stroke={"black"}
+                        stroke-width= {"3"} />
+                    {/* left 0 tick */}
+                    <line
+                        x1={chartSize / 4 - tickLength}
+                        y1={chartSize - margin - 20}
+                        x2={chartSize / 4 - tickLength * 2}
+                        y2={chartSize - margin - 20}
+                        stroke={"black"} 
+                        stroke-width= {"3"} />
+                    {/* right 37 tick */}
+                    <line 
+                        x1={chartSize - (chartSize / 4) + tickLength * 2} 
+                        y1={chartSize - margin + axisTextAlignmentFactor - 150} 
+                        x2={chartSize - (chartSize / 4) + tickLength} 
+                        y2={chartSize - margin + axisTextAlignmentFactor - 150} 
+                        stroke={"black"} 
+                        stroke-width= {"3"} />
+                    {/* right 0 tick */}
+                    <line
+                        x1={chartSize - (chartSize / 4) + tickLength * 2}
+                        y1={chartSize - margin - 20}
+                        x2={chartSize - (chartSize / 4) + tickLength}
+                        y2={chartSize - margin -20} 
+                        stroke={"black"}
+                        stroke-width= {"3"} />
+
+
+
+
+
+                    <text 
+                    x={chartSize / 2 + margin / 2 - 40}  
+                    textAnchor="end"
+                    y={chartSize - margin / 2.5} 
+                    style={{ fontSize: 18, fontFamily: "Gill Sans, sans serif" }}>
+                        Hawaii vs. U.S. 
+                    </text>
+                    {/* right label */}
+                    <text 
+                    x={chartSize - (chartSize / 10) - margin / 2} 
+                    textAnchor="end"
+                    y={chartSize - margin / 2.5} 
+                    style={{ fontSize: 18, fontFamily: "Gill Sans, sans serif" }}>
+                        Washington vs. U.S.
+                    </text>
+                
                 {dataSmallSample.map((measurement, index) => {
                     const highlight = measurement.state == "WA";
                   return <circle 
                             key={index} 
-                            cx={highlight ? chartSize/2 : chartSize / 2 + 20} 
-                            cy={chartSize - margin - measurement.TAVG} 
+                            cx={highlight ? chartSize/2 + 100 : chartSize / 2 + 120} 
+                            cy={chartSize - margin - measurement.TAVG - 50} 
                             fill = "none"
                             stroke = {highlight ? "red" : "steelblue"}
+                            strokeOpacity = "0.2"
+                            r="3" />
+                })}
+                {dataSmallSample.map((measurement, index) => {
+                    const hight2 = measurement.state == "HI";
+                  return <circle 
+                            key={index} 
+                            cx={hight2 ? chartSize/4 : chartSize / 4 + 20} 
+                            cy={chartSize - margin - measurement.TAVG - 50} 
+                            fill = "none"
+                            stroke = {hight2 ? "red" : "steelblue"}
                             strokeOpacity = "0.2"
                             r="3" />
                 })}
